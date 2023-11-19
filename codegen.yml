@@ -1,0 +1,21 @@
+overwrite: true
+generates:
+  ./src/graphql/types.ts:
+    schema: "https://graph.staging.dukesell.dev/"
+    plugins:
+      - typescript
+  ./src/graphql/:
+    schema: "https://graph.staging.dukesell.dev/"
+    documents: ["src/graphql/mutations/*.ts", "src/graphql/queries/*.ts"]
+    preset: near-operation-file
+    presetConfig:
+      extension: .ts
+      folder: __generated__
+      baseTypesPath: types.ts
+    plugins:
+      - typescript-operations
+      - typed-document-node
+  ./src/graphql/schema.json:
+    schema: "https://graph.staging.dukesell.dev/graphql"
+    plugins:
+      - "introspection"
