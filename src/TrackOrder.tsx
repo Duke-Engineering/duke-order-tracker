@@ -2,18 +2,18 @@ import image from "../src/assets/e commerce completed order.png";
 import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const TrackOrder = () => {
-//     const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
-//   const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
-//     setSearchTerm(event.target.value);
-//   };
+  const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchTerm(event.target.value);
+  };
 
   
-//   const navigate = useNavigate();
-//   const handleViewOrderClick = (trackingCode:any) => {
+  const navigate = useNavigate();
+  const handleViewOrderClick = (trackingCode:any) => {
        
-//     navigate(`/track-your-order?trackingCode=${trackingCode}`);
-//   };
+    navigate(`/track-your-order?trackingCode=${trackingCode}`);
+  };
     return ( 
         <div>
             <div className="w-full  py-48 flex flex-col lg:flex-row lg:m-auto lg:py-48  items-center space-y-24 lg:justify-center ">
@@ -29,14 +29,14 @@ const TrackOrder = () => {
                 <input type="text"
                 className="w-96 mx-auto border border-gray-300 p-2 rounded-md "
                 placeholder="eg. 160-060-QNH"
-                //value={searchTerm}
-                //onChange={handleInputChange}
+                value={searchTerm}
+                onChange={handleInputChange}
                 />
                 </div>
                 <div>
                 <button 
                 className="px-4 ml-36 lg:ml-0  my-8  bg-pink-600 text-white text-sm h-8 rounded-full"
-                //onClick={() => handleViewOrderClick(searchTerm)}
+                onClick={() => handleViewOrderClick(searchTerm)}
                 >Track order</button>
                 </div>
                 </div>

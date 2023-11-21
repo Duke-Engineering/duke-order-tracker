@@ -6,7 +6,7 @@ import { store } from "../app/store";
 const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "development"
-      ? "https://graph.staging.dukesell.dev"
+      ? "https://graph.vbjxzqu.dukesell.app/"
       : process.env.REACT_APP_GRAPHQL_API_GATEWAY
 });
 
