@@ -1,14 +1,11 @@
 import useOrders from "../src/graphql/hooks/useOrders";
-//import { useAppSelector } from "../src/app/hooks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import moment from "moment";
 import * as R from "ramda";
-//import numeral from "numeral";
-//import { Accordion } from "@mantine/core";
-//import { useEffect, useState } from "react";
+import Loader from "./Loader";
 import search from "../src/assets/no-results.png";
-///import Loader from "../StoreFront/components/Loader";
+
 const OrderStatusPage = () => {
   // const { shop } = useAppSelector((state: { shop: any; }) => state?.shop);
   //  const { userInfo } = useAppSelector((state: { auth: any; }) => state.auth);
@@ -24,7 +21,7 @@ const OrderStatusPage = () => {
   });
   const navigate = useNavigate();
   if (loading) {
-    return <div>{/* <Loader/> */}</div>;
+    return <div>{ <Loader/> }</div>;
   }
 
   if (error) {
@@ -194,20 +191,20 @@ const OrderStatusPage = () => {
           </div>
         </main>
       ) : (
-        <div className="flex flex-col items-center justify-center m-auto py-24 space-y-2">
+        <div className="flex flex-col items-center justify-center  m-auto py-24 ">
           <div>
-            <img src={search} className="w-24 h-24 lg:w-64 -lg:h-54 " alt="" />
+            <img src={search} className="w-24 h-24 lg:w-52 lg:h-52 " alt="" />
           </div>
-          <div className="text-3xl font-normal text-center">
+          <div className="text-3xl font-normal text-center mt-16">
             Oops! Tracking Code Not found
           </div>
-          <div className="text-center">
+          <div className="text-center ">
             Sorry we couldn't find any search results. Please check your input
             and try again or contact us for more information about this issue.
           </div>
           <div
             onClick={() => navigate("/")}
-            className="px-2 text-center pb-1 bg-pink-600 hover:cursor-pointer text-white rounded-lg"
+            className="px-2 text-center pb-1 bg-pink-600 hover:cursor-pointer mt-32 text-white rounded-lg"
           >
             Go back
           </div>
