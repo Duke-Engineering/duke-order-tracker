@@ -84,8 +84,11 @@ export type Address = {
 export type AddressInput = {
   area: Scalars['String']['input'];
   city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   landmark?: InputMaybe<Scalars['String']['input']>;
   lat?: InputMaybe<Scalars['String']['input']>;
+  lng?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AgencyDetails = {
@@ -926,6 +929,7 @@ export type CashRewardHistory = {
 export type CashRewardsFilter = {
   amount?: InputMaybe<MoneyOperator>;
   id?: InputMaybe<IdOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
   user_id?: InputMaybe<IdOperator>;
   wallet_id?: InputMaybe<IdOperator>;
 };
@@ -1157,33 +1161,21 @@ export type CreateCustomerSubscriptionRequestDto = {
 
 export type CreateDiscountRequestDto = {
   amount?: InputMaybe<Scalars['Float']['input']>;
-  /**
-   *   The code your customers will enter during checkout. This will appear on your customer’s invoice.
-   * Uppercase letters and numbers only.
-   */
   code?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<UserType>;
   description: Scalars['String']['input'];
-  /** Schedule the discount to deactivate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   expiry_date: Scalars['String']['input'];
-  /** If type is FIXED_AMOUNT, the allocation selected */
   fixed_amount_allocation?: InputMaybe<FixedAmountAllocation>;
-  /** Save as draft */
   is_draft: Scalars['Boolean']['input'];
   locations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   locations_tagname?: InputMaybe<Scalars['String']['input']>;
   percentage?: InputMaybe<Scalars['Float']['input']>;
-  /** Product conditions for discount to apply */
   product_condition?: InputMaybe<ProductCondition>;
   products?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** Limit the number of redemptions? */
   redemptions_limit?: InputMaybe<Scalars['Int']['input']>;
-  /** Schedule the discount to activate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   start_date: Scalars['String']['input'];
-  /** Type of discount */
   type: DiscountType;
   user_id?: InputMaybe<Scalars['ID']['input']>;
-  /** Countries where the discount can be applied */
   valid_country: Scalars['String']['input'];
 };
 
@@ -1294,6 +1286,7 @@ export type CustomerFilter = {
   id?: InputMaybe<IdOperator>;
   name?: InputMaybe<StringOperator>;
   phone?: InputMaybe<StringOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
   user_id?: InputMaybe<IdOperator>;
 };
 
@@ -1464,70 +1457,47 @@ export type Details = {
 export type Discount = {
   __typename?: 'Discount';
   amount?: Maybe<Scalars['Float']['output']>;
-  /**
-   *   The code your customers will enter during checkout. This will appear on your customer’s invoice.
-   * Uppercase letters and numbers only.
-   */
   code?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['Date']['output']>;
   created_by?: Maybe<UserType>;
   description: Scalars['String']['output'];
-  /** Schedule the discount to deactivate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   expiry_date: Scalars['String']['output'];
-  /** If type is FIXED_AMOUNT, the allocation selected */
   fixed_amount_allocation?: Maybe<FixedAmountAllocation>;
   has_expired?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
-  /** Saved as draft */
   is_draft: Scalars['Boolean']['output'];
   locations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   locations_tagname?: Maybe<Scalars['String']['output']>;
   number_of_times_used?: Maybe<Scalars['Int']['output']>;
   percentage?: Maybe<Scalars['Float']['output']>;
-  /** Product conditions for discount to apply */
   product_condition?: Maybe<ProductCondition>;
   products?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Limit the number of redemptions? */
   redemptions_limit?: Maybe<Scalars['Int']['output']>;
-  /** Schedule the discount to activate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   start_date: Scalars['String']['output'];
-  /** Type of discount */
   type: DiscountType;
   updated_at?: Maybe<Scalars['Date']['output']>;
   user_id?: Maybe<Scalars['ID']['output']>;
-  /** Countries where the discount can be applied */
   valid_country: Scalars['String']['output'];
 };
 
 export type DiscountFilter = {
   amount?: InputMaybe<NumberOperator>;
-  /**
-   *   The code your customers will enter during checkout. This will appear on your customer’s invoice.
-   * Uppercase letters and numbers only.
-   */
   code?: InputMaybe<StringOperator>;
   created_at?: InputMaybe<DateOperator>;
   created_by?: InputMaybe<StringOperator>;
   description?: InputMaybe<StringOperator>;
-  /** Schedule the discount to deactivate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   expiry_date?: InputMaybe<DateOperator>;
-  /** If type is FIXED_AMOUNT, the allocation selected */
   fixed_amount_allocation?: InputMaybe<StringOperator>;
   id?: InputMaybe<IdOperator>;
-  /** Saved as draft */
   is_draft?: InputMaybe<BooleanOperator>;
   locations?: InputMaybe<StringOperator>;
   number_of_times_used?: InputMaybe<NumberOperator>;
   percentage?: InputMaybe<NumberOperator>;
-  /** Limit the number of redemptions? */
   redemptions_limit?: InputMaybe<NumberOperator>;
-  /** Schedule the discount to activate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   start_date?: InputMaybe<DateOperator>;
-  /** Type of discount */
   type?: InputMaybe<StringOperator>;
   updated_at?: InputMaybe<DateOperator>;
   user_id?: InputMaybe<IdOperator>;
-  /** Countries where the discount can be applied */
   valid_country?: InputMaybe<StringOperator>;
 };
 
@@ -1537,6 +1507,7 @@ export type DiscountProductCondition = {
   created_at?: Maybe<Scalars['Date']['output']>;
   discount_id: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
   product_sku: Scalars['String']['output'];
   updated_at?: Maybe<Scalars['Date']['output']>;
 };
@@ -1556,11 +1527,8 @@ export type DiscountProductConditionRequestDto = {
 };
 
 export enum DiscountType {
-  /** Discount applied in fixed number */
   FixedAmount = 'FIXED_AMOUNT',
-  /** override delivery amount */
   FreeDelivery = 'FREE_DELIVERY',
-  /** Discount applied in % */
   Percentage = 'PERCENTAGE'
 }
 
@@ -1604,6 +1572,17 @@ export type FeaturedCategoryInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type FetchShopifyShopInput = {
+  condition?: InputMaybe<Condition>;
+  filter?: InputMaybe<ShopifyShopFilter>;
+};
+
+export type FetchShopifyShopsInput = {
+  condition?: InputMaybe<Condition>;
+  filter?: InputMaybe<ShopifyShopFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
 export type FetchUserInput = {
   condition?: InputMaybe<Condition>;
   filter?: InputMaybe<UserFilter>;
@@ -1627,9 +1606,7 @@ export type FindOptionsDto = {
 };
 
 export enum FixedAmountAllocation {
-  /** Apply to specific items in cart */
   ProductSpecific = 'PRODUCT_SPECIFIC',
-  /** Apply to the total cart amount */
   TotalAmount = 'TOTAL_AMOUNT'
 }
 
@@ -1910,11 +1887,6 @@ export type GetPaymentResponseDto = {
   payment?: Maybe<Payment>;
 };
 
-export type GetPaymentsRequestDto = {
-  filter?: InputMaybe<PaymentFilter>;
-  pagination?: InputMaybe<Pagination>;
-};
-
 export type GetPaymentsResponseDto = {
   __typename?: 'GetPaymentsResponseDto';
   payments: Array<Maybe<Payment>>;
@@ -1943,11 +1915,6 @@ export type GetSharedProductRequestDto = {
 export type GetShopResponseDto = {
   __typename?: 'GetShopResponseDto';
   shop?: Maybe<Shop>;
-};
-
-export type GetShopifyShopsRequestDto = {
-  filter?: InputMaybe<ShopifyShopFilter>;
-  pagination?: InputMaybe<Pagination>;
 };
 
 export type GetShopsRequestDto = {
@@ -2029,6 +1996,26 @@ export type Leaderboard = {
   source_id: Scalars['ID']['output'];
 };
 
+export type LoadProductToShopify = {
+  combination_string?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  media?: InputMaybe<Array<Scalars['String']['input']>>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  product_id: Scalars['ID']['input'];
+  product_origin: Scalars['String']['input'];
+  qty: Scalars['Int']['input'];
+  sku: Scalars['String']['input'];
+  supplier_generic_name?: InputMaybe<Scalars['String']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  title: Scalars['String']['input'];
+  uuid: Scalars['String']['input'];
+};
+
+export type LoadProductToShopifyInput = {
+  integration_id?: InputMaybe<Scalars['ID']['input']>;
+  products?: InputMaybe<Array<LoadProductToShopify>>;
+};
+
 export enum LogicalOperator {
   And = 'AND',
   Or = 'OR'
@@ -2071,8 +2058,10 @@ export type Mutation = {
   addProductToShopCollection?: Maybe<Scalars['Boolean']['output']>;
   addProductsToCollection?: Maybe<Scalars['Boolean']['output']>;
   addProductsToShopCollection?: Maybe<Scalars['Boolean']['output']>;
+  addProductstoDiscount?: Maybe<Scalars['Boolean']['output']>;
   addSupplierAgreementTerms?: Maybe<Scalars['Boolean']['output']>;
   addSupplierBusinessDetails?: Maybe<Scalars['Boolean']['output']>;
+  addSupplierCategories: Scalars['Boolean']['output'];
   addSupplierDeviceToken?: Maybe<Scalars['Boolean']['output']>;
   addSupplierLocation?: Maybe<SupplierLocation>;
   addSupplierPaymentDetails?: Maybe<Scalars['Boolean']['output']>;
@@ -2121,6 +2110,8 @@ export type Mutation = {
   createShopCollection?: Maybe<Scalars['Boolean']['output']>;
   createSubscriptionPackage?: Maybe<SubscriptionPackage>;
   createSupplier?: Maybe<SupplierCreationResponse>;
+  createSupplierCustomer?: Maybe<Customer>;
+  createTerm: Scalars['Boolean']['output'];
   createTopDeal?: Maybe<Scalars['Boolean']['output']>;
   createTopDealBanner?: Maybe<Scalars['Boolean']['output']>;
   createTrendingProduct?: Maybe<Scalars['Boolean']['output']>;
@@ -2128,6 +2119,7 @@ export type Mutation = {
   creditWallet: Scalars['Boolean']['output'];
   customerSignIn?: Maybe<CustomerAuthPayload>;
   customerSignUp?: Maybe<CustomerAuthPayload>;
+  customerSupplierSignUp?: Maybe<CustomerAuthPayload>;
   debitWallet: Scalars['String']['output'];
   deleteAppBanner?: Maybe<Scalars['Boolean']['output']>;
   deleteCampaign?: Maybe<Scalars['Boolean']['output']>;
@@ -2139,11 +2131,15 @@ export type Mutation = {
   deletePayoutRequest?: Maybe<Scalars['Boolean']['output']>;
   deletePickUpLocation: Scalars['Boolean']['output'];
   deletePlugin?: Maybe<Scalars['Boolean']['output']>;
+  deleteTerm: Scalars['Boolean']['output'];
   deleteTopDeal?: Maybe<Scalars['Boolean']['output']>;
   deleteTrendingProduct?: Maybe<Scalars['Boolean']['output']>;
   editProductStat?: Maybe<Scalars['Boolean']['output']>;
   forgotPassword?: Maybe<Scalars['String']['output']>;
   initiateWalletForUser?: Maybe<Wallet>;
+  inviteResellerBySupplier?: Maybe<Scalars['Boolean']['output']>;
+  joinSupplierResellerNetwork?: Maybe<Scalars['Boolean']['output']>;
+  loadProductsToShopify?: Maybe<Scalars['Boolean']['output']>;
   /** Make payment using the tingg infrastructure. */
   makePayment: Scalars['String']['output'];
   makeRequestForProduct?: Maybe<Scalars['Boolean']['output']>;
@@ -2215,8 +2211,10 @@ export type Mutation = {
   removeProductFromShop?: Maybe<Scalars['Boolean']['output']>;
   removeProductImage?: Maybe<Scalars['Boolean']['output']>;
   removePromoBanner?: Maybe<Scalars['Boolean']['output']>;
+  removeResellerBySupplier?: Maybe<Scalars['Boolean']['output']>;
   removeReview?: Maybe<Scalars['Boolean']['output']>;
   removeShopCollection?: Maybe<Scalars['Boolean']['output']>;
+  removeShopifyShop?: Maybe<Scalars['Boolean']['output']>;
   removeSupplier?: Maybe<Scalars['Boolean']['output']>;
   removeTopDealsBanners?: Maybe<Scalars['Boolean']['output']>;
   removeUser?: Maybe<Scalars['Boolean']['output']>;
@@ -2233,11 +2231,13 @@ export type Mutation = {
   resetSupplierPassword?: Maybe<Scalars['Boolean']['output']>;
   retryProcessingItems?: Maybe<Scalars['Boolean']['output']>;
   reverseProfit?: Maybe<Scalars['Boolean']['output']>;
+  reverseTransaction: Scalars['Boolean']['output'];
   sendSupplierResetPasswordMail?: Maybe<Scalars['Boolean']['output']>;
   setSupplierPickupLocation?: Maybe<Scalars['Boolean']['output']>;
   setSupplierProductMarkup?: Maybe<Scalars['Boolean']['output']>;
   setupAccount: RequestOtpResponse;
   supplierSignIn: SupplierAuthPayload;
+  syncShopifyProducts?: Maybe<Scalars['Boolean']['output']>;
   /** This is when the merchant wants to acknowledge the request with a final status or a delivered status. This is sent as a JSON POST request. */
   tinggAcknowledgement: TinggAcknowledgementResponseDto;
   /** This function is used by merchants to post a charge request i.e. request to debit amount from customer for the checkout request that was posted earlier in the request/initiate function. */
@@ -2268,10 +2268,10 @@ export type Mutation = {
   updateCollectionConfig?: Maybe<Scalars['Boolean']['output']>;
   updateCoupon?: Maybe<Scalars['Boolean']['output']>;
   updateCustomer?: Maybe<Scalars['Boolean']['output']>;
+  updateCustomerAddressOnOrder?: Maybe<Scalars['Boolean']['output']>;
   updateDeliveryLocation: Scalars['Boolean']['output'];
   updateDeliveryZone?: Maybe<Scalars['Boolean']['output']>;
   updateDiscount?: Maybe<Discount>;
-  updateDiscountProductCondition?: Maybe<DiscountProductCondition>;
   updateForexRate?: Maybe<Scalars['Boolean']['output']>;
   updateOrderDetailsOps?: Maybe<Scalars['Boolean']['output']>;
   updateOrderSKU?: Maybe<Scalars['Boolean']['output']>;
@@ -2283,6 +2283,7 @@ export type Mutation = {
   updateProductCategory?: Maybe<Scalars['Boolean']['output']>;
   updateProductCategoryAndTags?: Maybe<Scalars['Boolean']['output']>;
   updateProductCombination?: Maybe<Scalars['Boolean']['output']>;
+  updateProductDistribution?: Maybe<Scalars['Boolean']['output']>;
   updateProductInformation?: Maybe<Scalars['Boolean']['output']>;
   updateProductInventory?: Maybe<Scalars['Boolean']['output']>;
   updateProductLikeState?: Maybe<Scalars['Boolean']['output']>;
@@ -2297,9 +2298,11 @@ export type Mutation = {
   updateSupplier: Scalars['Boolean']['output'];
   updateSupplierBusinessContact?: Maybe<Scalars['Boolean']['output']>;
   updateSupplierBusinessDetails?: Maybe<Scalars['Boolean']['output']>;
+  updateSupplierDetails?: Maybe<Scalars['Boolean']['output']>;
   updateSupplierGenericName?: Maybe<Scalars['Boolean']['output']>;
   updateSupplierPayment?: Maybe<SupplierPaymentDetails>;
   updateSupplierProfile?: Maybe<Scalars['Boolean']['output']>;
+  updateTerm: Scalars['Boolean']['output'];
   updateUserDetails?: Maybe<Scalars['Boolean']['output']>;
   updateVariation?: Maybe<Scalars['Boolean']['output']>;
   userLogin?: Maybe<Auth>;
@@ -2378,6 +2381,12 @@ export type MutationAddProductsToShopCollectionArgs = {
 };
 
 
+export type MutationAddProductstoDiscountArgs = {
+  discountId: Scalars['ID']['input'];
+  productSKUs: Array<Scalars['String']['input']>;
+};
+
+
 export type MutationAddSupplierAgreementTermsArgs = {
   input?: InputMaybe<AddSupplierAgreementTermsInput>;
 };
@@ -2385,6 +2394,12 @@ export type MutationAddSupplierAgreementTermsArgs = {
 
 export type MutationAddSupplierBusinessDetailsArgs = {
   input?: InputMaybe<SupplierBusinessInput>;
+};
+
+
+export type MutationAddSupplierCategoriesArgs = {
+  categories: Array<Scalars['ID']['input']>;
+  supplier_id: Scalars['ID']['input'];
 };
 
 
@@ -2627,6 +2642,17 @@ export type MutationCreateSupplierArgs = {
 };
 
 
+export type MutationCreateSupplierCustomerArgs = {
+  input?: InputMaybe<CustomerInput>;
+  supplier_id: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateTermArgs = {
+  input: TermInput;
+};
+
+
 export type MutationCreateTopDealArgs = {
   productId: Scalars['ID']['input'];
 };
@@ -2664,6 +2690,12 @@ export type MutationCustomerSignInArgs = {
 export type MutationCustomerSignUpArgs = {
   input?: InputMaybe<CustomerInput>;
   user_id: Scalars['ID']['input'];
+};
+
+
+export type MutationCustomerSupplierSignUpArgs = {
+  input?: InputMaybe<CustomerInput>;
+  supplier_id: Scalars['ID']['input'];
 };
 
 
@@ -2723,6 +2755,11 @@ export type MutationDeletePluginArgs = {
 };
 
 
+export type MutationDeleteTermArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteTopDealArgs = {
   productId: Scalars['ID']['input'];
 };
@@ -2745,6 +2782,25 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationInitiateWalletForUserArgs = {
   user_id: Scalars['ID']['input'];
+};
+
+
+export type MutationInviteResellerBySupplierArgs = {
+  email: Scalars['String']['input'];
+  supplier_id: Scalars['ID']['input'];
+  terms_id: Scalars['ID']['input'];
+};
+
+
+export type MutationJoinSupplierResellerNetworkArgs = {
+  reseller_id: Scalars['ID']['input'];
+  supplier_id: Scalars['ID']['input'];
+  terms_id: Scalars['ID']['input'];
+};
+
+
+export type MutationLoadProductsToShopifyArgs = {
+  input?: InputMaybe<LoadProductToShopifyInput>;
 };
 
 
@@ -2968,6 +3024,12 @@ export type MutationRemovePromoBannerArgs = {
 };
 
 
+export type MutationRemoveResellerBySupplierArgs = {
+  reseller_id: Scalars['ID']['input'];
+  supplier_id: Scalars['ID']['input'];
+};
+
+
 export type MutationRemoveReviewArgs = {
   id: Scalars['ID']['input'];
 };
@@ -2975,6 +3037,11 @@ export type MutationRemoveReviewArgs = {
 
 export type MutationRemoveShopCollectionArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveShopifyShopArgs = {
+  supplier_id: Scalars['ID']['input'];
 };
 
 
@@ -3058,6 +3125,11 @@ export type MutationReverseProfitArgs = {
 };
 
 
+export type MutationReverseTransactionArgs = {
+  reference: Scalars['String']['input'];
+};
+
+
 export type MutationSendSupplierResetPasswordMailArgs = {
   input?: InputMaybe<SupplierPasswordResetMailInput>;
 };
@@ -3083,6 +3155,11 @@ export type MutationSupplierSignInArgs = {
   emailOrPhone: Scalars['String']['input'];
   password: Scalars['String']['input'];
   type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSyncShopifyProductsArgs = {
+  input: SyncShopifyProductInput;
 };
 
 
@@ -3188,6 +3265,12 @@ export type MutationUpdateCustomerArgs = {
 };
 
 
+export type MutationUpdateCustomerAddressOnOrderArgs = {
+  customer_address_id: Scalars['ID']['input'];
+  order_id: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateDeliveryLocationArgs = {
   input: DeliveryInput;
 };
@@ -3201,11 +3284,6 @@ export type MutationUpdateDeliveryZoneArgs = {
 export type MutationUpdateDiscountArgs = {
   data: UpdateDiscountData;
   filter: DiscountFilter;
-};
-
-
-export type MutationUpdateDiscountProductConditionArgs = {
-  input?: InputMaybe<UpdateDiscountProductConditionRequestDto>;
 };
 
 
@@ -3269,6 +3347,11 @@ export type MutationUpdateProductCombinationArgs = {
 };
 
 
+export type MutationUpdateProductDistributionArgs = {
+  input?: InputMaybe<UpdateProductDistributionInput>;
+};
+
+
 export type MutationUpdateProductInformationArgs = {
   input?: InputMaybe<ProductInformationInput>;
 };
@@ -3327,7 +3410,7 @@ export type MutationUpdateSubscriptionPackageArgs = {
 
 
 export type MutationUpdateSupplierArgs = {
-  input?: InputMaybe<SupplierFilter>;
+  input?: InputMaybe<SupplierInput>;
 };
 
 
@@ -3338,6 +3421,11 @@ export type MutationUpdateSupplierBusinessContactArgs = {
 
 export type MutationUpdateSupplierBusinessDetailsArgs = {
   input?: InputMaybe<UpdateSupplierBusinessDetailsInput>;
+};
+
+
+export type MutationUpdateSupplierDetailsArgs = {
+  input?: InputMaybe<UpdateSupplierDetailsInput>;
 };
 
 
@@ -3353,6 +3441,11 @@ export type MutationUpdateSupplierPaymentArgs = {
 
 export type MutationUpdateSupplierProfileArgs = {
   input?: InputMaybe<SupplierProfileUpdateInput>;
+};
+
+
+export type MutationUpdateTermArgs = {
+  input: TermInput;
 };
 
 
@@ -3460,8 +3553,8 @@ export type OnPurchaseSharedProductResponseDto = {
 export type Order = {
   __typename?: 'Order';
   address?: Maybe<CustomerAddress>;
-  cart_number?: Maybe<Scalars['String']['output']>;
-  country?: Maybe<Scalars['String']['output']>;
+  cart_number: Scalars['String']['output'];
+  country: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['Date']['output']>;
   customer?: Maybe<Customer>;
   customer_address_id?: Maybe<Scalars['ID']['output']>;
@@ -3471,19 +3564,20 @@ export type Order = {
   delivery_amount?: Maybe<Scalars['Float']['output']>;
   delivery_id?: Maybe<Scalars['ID']['output']>;
   delivery_instructions?: Maybe<Scalars['String']['output']>;
+  delivery_type: Scalars['String']['output'];
   discount?: Maybe<Scalars['Float']['output']>;
   free_delivery?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
   orderItems?: Maybe<Array<Maybe<OrderItem>>>;
-  order_total?: Maybe<Scalars['Float']['output']>;
+  order_total: Scalars['Float']['output'];
   payment?: Maybe<Payment>;
   payment_id?: Maybe<Scalars['ID']['output']>;
   payment_status?: Maybe<Scalars['String']['output']>;
-  payment_type?: Maybe<Scalars['String']['output']>;
+  payment_type: Scalars['String']['output'];
   reseller?: Maybe<User>;
   security_deposit?: Maybe<Scalars['Float']['output']>;
   security_deposit_paid?: Maybe<Scalars['Boolean']['output']>;
-  source?: Maybe<Scalars['String']['output']>;
+  source: Scalars['String']['output'];
   supplier?: Maybe<Supplier>;
   supplier_id?: Maybe<Scalars['ID']['output']>;
   tracking_code?: Maybe<Scalars['String']['output']>;
@@ -3616,6 +3710,7 @@ export type OrderProductFilter = {
 
 export type OrderProductInput = {
   cost_price?: InputMaybe<Scalars['Float']['input']>;
+  discount?: InputMaybe<Scalars['Float']['input']>;
   price: Scalars['Float']['input'];
   product_id: Scalars['ID']['input'];
   profitAdded: Scalars['Float']['input'];
@@ -3663,6 +3758,14 @@ export enum OrderStatus {
   Processing = 'PROCESSING',
   Returned = 'RETURNED'
 }
+
+export type OrderStatusesStats = {
+  __typename?: 'OrderStatusesStats';
+  totalCancelled: Scalars['Int']['output'];
+  totalDelivered: Scalars['Int']['output'];
+  totalPending: Scalars['Int']['output'];
+  totalSuccessful: Scalars['Int']['output'];
+};
 
 export type OzowGeneratePaymentUrlResponseDto = {
   __typename?: 'OzowGeneratePaymentUrlResponseDto';
@@ -4039,6 +4142,7 @@ export type PayoutFilter = {
   id?: InputMaybe<IdOperator>;
   provider?: InputMaybe<StringOperator>;
   status?: InputMaybe<StringOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
   transaction_id?: InputMaybe<StringOperator>;
   user_id?: InputMaybe<IdOperator>;
 };
@@ -4907,6 +5011,7 @@ export type Product = {
   currency?: Maybe<Scalars['String']['output']>;
   description: Scalars['String']['output'];
   discount?: Maybe<Discount>;
+  distributionChannels?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   extra_information?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   inhouse?: Maybe<Scalars['Boolean']['output']>;
@@ -4914,6 +5019,7 @@ export type Product = {
   limited_stock?: Maybe<Scalars['Boolean']['output']>;
   main_stock?: Maybe<Scalars['Int']['output']>;
   media?: Maybe<Array<Maybe<ProductAvatar>>>;
+  minimumOrderQuantity?: Maybe<Scalars['Int']['output']>;
   overalReview: Scalars['Float']['output'];
   price: Scalars['Float']['output'];
   profit_added?: Maybe<Scalars['Float']['output']>;
@@ -4961,6 +5067,12 @@ export type ProductCategoryAndTagsInput = {
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type ProductCategoryCount = {
+  __typename?: 'ProductCategoryCount';
+  category: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+};
+
 export type ProductCategoryFilter = {
   country?: InputMaybe<StringOperator>;
   description?: InputMaybe<StringOperator>;
@@ -4969,6 +5081,7 @@ export type ProductCategoryFilter = {
   parent?: InputMaybe<NumberOperator>;
   random?: InputMaybe<Scalars['Boolean']['input']>;
   shop_id?: InputMaybe<IdOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
 };
 
 export type ProductCategoryInput = {
@@ -5025,9 +5138,7 @@ export type ProductComment = {
 };
 
 export enum ProductCondition {
-  /** Discount applies to the selected products */
   In = 'IN',
-  /** Discount applies to all products, except the selected products */
   NotIn = 'NOT_IN'
 }
 
@@ -5059,6 +5170,7 @@ export type ProductInformationInput = {
   currency?: InputMaybe<CurrencyCode>;
   description?: InputMaybe<Scalars['String']['input']>;
   extra_information?: InputMaybe<Scalars['String']['input']>;
+  minimumOrderQuantity?: InputMaybe<Scalars['Int']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   product_id: Scalars['ID']['input'];
   sku: Scalars['String']['input'];
@@ -5077,6 +5189,16 @@ export type ProductMediaInput = {
   media?: InputMaybe<Array<Scalars['String']['input']>>;
   product_id: Scalars['ID']['input'];
 };
+
+export enum ProductOrigin {
+  InHouse = 'IN_HOUSE',
+  Shopify = 'SHOPIFY'
+}
+
+export enum ProductPolicy {
+  Resell = 'RESELL',
+  Supplier = 'SUPPLIER'
+}
 
 export type ProductRequest = {
   __typename?: 'ProductRequest';
@@ -5235,12 +5357,14 @@ export type Query = {
   getCoupon?: Maybe<Coupon>;
   getCoupons?: Maybe<Array<Coupon>>;
   getCouponsLength: Scalars['Int']['output'];
+  getCurentForexRate?: Maybe<ForexRate>;
   getCustomer?: Maybe<Customer>;
   getCustomerSubscription?: Maybe<CustomerSubscription>;
   getCustomerSubscriptions?: Maybe<Array<Maybe<CustomerSubscription>>>;
   getCustomers?: Maybe<Array<Maybe<Customer>>>;
   getCustomersLength: Scalars['Int']['output'];
   getDailyActiveUsers?: Maybe<Scalars['Any']['output']>;
+  getDailyOrdersSummary?: Maybe<Scalars['Any']['output']>;
   getDelayedProfitPayouts?: Maybe<Array<Maybe<OrderItem>>>;
   getDelayedProfitPayoutsLength: Scalars['Int']['output'];
   getDeliveredOrders?: Maybe<Array<Maybe<DeliveredOrders>>>;
@@ -5263,12 +5387,14 @@ export type Query = {
   getOrderStatusesStats?: Maybe<OrderStatsStats>;
   getOrders?: Maybe<Array<Maybe<OrderItem>>>;
   getOrdersLength: Scalars['Int']['output'];
+  getPayment?: Maybe<Payment>;
   /** Get a single payment record by id */
   getPaymentById: GetPaymentResponseDto;
   /** Get a payment record by the reference used to initialise the payment */
   getPaymentByReference: GetPaymentResponseDto;
   /** Get a list of payment records */
-  getPayments?: Maybe<Array<Maybe<Payment>>>;
+  getPayments?: Maybe<Array<Payment>>;
+  getPaymentsLength: Scalars['Int']['output'];
   getPayoutRequests?: Maybe<Array<Maybe<Payout>>>;
   getPayoutRequestsLength?: Maybe<Scalars['Int']['output']>;
   getPickUpLocation?: Maybe<Pickup>;
@@ -5288,6 +5414,7 @@ export type Query = {
   getProductMargins?: Maybe<Scalars['Any']['output']>;
   getProductRequests?: Maybe<Array<Maybe<ProductRequest>>>;
   getProducts?: Maybe<Array<Maybe<Product>>>;
+  getProductsCountByCategories?: Maybe<Array<Maybe<ProductCategoryCount>>>;
   getProductsLength?: Maybe<Scalars['Int']['output']>;
   getProductsLikedByUser: Array<Maybe<Product>>;
   getProductsMetrics?: Maybe<ProductsStats>;
@@ -5299,6 +5426,7 @@ export type Query = {
   getPromoBannersLength: Scalars['Int']['output'];
   getRandomProducts?: Maybe<Array<Maybe<Product>>>;
   getRehookLeaderboard?: Maybe<RehookLeaderboard>;
+  getResellerWalletSummary?: Maybe<WalletSumary>;
   getRevenueFromProfit?: Maybe<ProfitRevenueStats>;
   getReview: Review;
   getReviews?: Maybe<Array<Maybe<Review>>>;
@@ -5313,9 +5441,7 @@ export type Query = {
   getShopCollectionProducts?: Maybe<Array<Maybe<Product>>>;
   getShopCollections?: Maybe<Array<ShopCollection>>;
   getShopCollectionsLength: Scalars['Int']['output'];
-  /** Retrive a shopify shop */
   getShopifyShop?: Maybe<ShopifyShop>;
-  /** Retrive a list of shopify shops */
   getShopifyShops?: Maybe<Array<Maybe<ShopifyShop>>>;
   getShops?: Maybe<Array<Shop>>;
   getShopsLength: Scalars['Int']['output'];
@@ -5327,9 +5453,16 @@ export type Query = {
   getSubscriptionPayments?: Maybe<Array<Maybe<SubscriptionPaymentHistory>>>;
   getSupplier?: Maybe<Supplier>;
   getSupplierBusinessPickupLocations?: Maybe<Array<Maybe<SupplierLocation>>>;
+  getSupplierDailyOrdersSummary?: Maybe<Scalars['Any']['output']>;
+  getSupplierOrdersByStatusSummary?: Maybe<OrderStatusesStats>;
   getSupplierPickupLocation?: Maybe<SupplierLocation>;
+  getSupplierStats?: Maybe<SupplierStats>;
+  getSupplierWalletSummary?: Maybe<SupplierWalletSumary>;
   getSuppliers?: Maybe<Array<Supplier>>;
   getSuppliersLength: Scalars['Int']['output'];
+  getTerm?: Maybe<Terms>;
+  getTerms?: Maybe<Array<Terms>>;
+  getTermsLength: Scalars['Int']['output'];
   getThreeMonthsActiveUsers?: Maybe<Scalars['Any']['output']>;
   /** This section would return the payment methods for Tingg */
   getTinggPaymentMethods?: Maybe<Array<Maybe<TinggQueryStatusResponsePaymentOptions>>>;
@@ -5360,6 +5493,7 @@ export type Query = {
   isProductSavedByUser?: Maybe<Scalars['Boolean']['output']>;
   isProductSharedByUser?: Maybe<Scalars['Boolean']['output']>;
   isSkuAvailable?: Maybe<Scalars['Boolean']['output']>;
+  loadShopifyProducts?: Maybe<Array<Maybe<ShopifyLoadedProduct>>>;
   me?: Maybe<User>;
   onBoardingCouponExistsAndNotConsumed?: Maybe<Scalars['Boolean']['output']>;
   orderGraphStats?: Maybe<Array<Maybe<OrderGraphData>>>;
@@ -5386,8 +5520,6 @@ export type Query = {
   paystackVerifyTransaction: PaystackMobileMoneyResponseDto;
   /** Verify the status of a transfer on your integration. */
   paystackVerifyTransfer: PaystackVerifyTransferResponseDto;
-  /** Retrieve a list of shopify products. */
-  shopifyGetProducts?: Maybe<ShopifyGetProductsResponseDto>;
   topDeals?: Maybe<Array<Product>>;
   topDealsBanners?: Maybe<Array<TopDealBanner>>;
   topDealsLength: Scalars['Int']['output'];
@@ -5552,6 +5684,7 @@ export type QueryGetCartArgs = {
 
 
 export type QueryGetCartsArgs = {
+  condition?: InputMaybe<Condition>;
   filter?: InputMaybe<CartFilter>;
   pagination?: InputMaybe<Pagination>;
 };
@@ -5630,6 +5763,13 @@ export type QueryGetCustomersArgs = {
 
 export type QueryGetCustomersLengthArgs = {
   filter?: InputMaybe<CustomerFilter>;
+};
+
+
+export type QueryGetDailyOrdersSummaryArgs = {
+  country: Scalars['String']['input'];
+  from: Scalars['Date']['input'];
+  to: Scalars['Date']['input'];
 };
 
 
@@ -5742,6 +5882,11 @@ export type QueryGetOrdersLengthArgs = {
 };
 
 
+export type QueryGetPaymentArgs = {
+  filter?: InputMaybe<PaymentFilter>;
+};
+
+
 export type QueryGetPaymentByIdArgs = {
   data: GetPaymentByIdRequestDto;
 };
@@ -5753,7 +5898,13 @@ export type QueryGetPaymentByReferenceArgs = {
 
 
 export type QueryGetPaymentsArgs = {
-  data: GetPaymentsRequestDto;
+  filter?: InputMaybe<PaymentFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type QueryGetPaymentsLengthArgs = {
+  filter?: InputMaybe<PaymentFilter>;
 };
 
 
@@ -5855,6 +6006,11 @@ export type QueryGetProductsArgs = {
 };
 
 
+export type QueryGetProductsCountByCategoriesArgs = {
+  supplier_id: Scalars['ID']['input'];
+};
+
+
 export type QueryGetProductsLengthArgs = {
   condition?: InputMaybe<Condition>;
   filter?: InputMaybe<ProductFilter>;
@@ -5911,6 +6067,11 @@ export type QueryGetRandomProductsArgs = {
 
 export type QueryGetRehookLeaderboardArgs = {
   input: GetRehookLeaderboardInput;
+};
+
+
+export type QueryGetResellerWalletSummaryArgs = {
+  user_id: Scalars['ID']['input'];
 };
 
 
@@ -5990,12 +6151,12 @@ export type QueryGetShopCollectionsLengthArgs = {
 
 
 export type QueryGetShopifyShopArgs = {
-  filter: ShopifyShopFilter;
+  input?: InputMaybe<FetchShopifyShopInput>;
 };
 
 
 export type QueryGetShopifyShopsArgs = {
-  input?: InputMaybe<GetShopifyShopsRequestDto>;
+  input?: InputMaybe<FetchShopifyShopsInput>;
 };
 
 
@@ -6049,8 +6210,32 @@ export type QueryGetSupplierBusinessPickupLocationsArgs = {
 };
 
 
+export type QueryGetSupplierDailyOrdersSummaryArgs = {
+  from: Scalars['Date']['input'];
+  id: Scalars['ID']['input'];
+  to: Scalars['Date']['input'];
+};
+
+
+export type QueryGetSupplierOrdersByStatusSummaryArgs = {
+  from: Scalars['Date']['input'];
+  suuplier_id: Scalars['ID']['input'];
+  to: Scalars['Date']['input'];
+};
+
+
 export type QueryGetSupplierPickupLocationArgs = {
   input?: InputMaybe<GetSupplierPickupLocationInput>;
+};
+
+
+export type QueryGetSupplierStatsArgs = {
+  supplier_id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetSupplierWalletSummaryArgs = {
+  supplier_id: Scalars['ID']['input'];
 };
 
 
@@ -6062,6 +6247,22 @@ export type QueryGetSuppliersArgs = {
 
 export type QueryGetSuppliersLengthArgs = {
   filter?: InputMaybe<SupplierFilter>;
+};
+
+
+export type QueryGetTermArgs = {
+  filter?: InputMaybe<TermsFilter>;
+};
+
+
+export type QueryGetTermsArgs = {
+  filter?: InputMaybe<TermsFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type QueryGetTermsLengthArgs = {
+  filter?: InputMaybe<TermsFilter>;
 };
 
 
@@ -6198,6 +6399,11 @@ export type QueryIsSkuAvailableArgs = {
 };
 
 
+export type QueryLoadShopifyProductsArgs = {
+  integrationId: Scalars['ID']['input'];
+};
+
+
 export type QueryOrderStatsArgs = {
   country: Scalars['String']['input'];
 };
@@ -6255,12 +6461,6 @@ export type QueryPaystackVerifyTransactionArgs = {
 
 export type QueryPaystackVerifyTransferArgs = {
   data: PaystackVerifyTransferRequestDto;
-};
-
-
-export type QueryShopifyGetProductsArgs = {
-  input?: InputMaybe<ShopifyGetProductsRequestDto>;
-  shopDomain: Scalars['String']['input'];
 };
 
 
@@ -6489,6 +6689,11 @@ export type SetSupplierProductMarkupInput = {
   supplier_id: Scalars['ID']['input'];
 };
 
+export enum Settlement {
+  Commission = 'Commission',
+  Markup = 'Markup'
+}
+
 export type SharedProduct = {
   __typename?: 'SharedProduct';
   created_at?: Maybe<Scalars['Date']['output']>;
@@ -6656,279 +6861,49 @@ export type ShopProductFilter = {
   shop_id?: InputMaybe<IdOperator>;
 };
 
-export type ShopifyCountryHarmonizedSystemCodes = {
-  __typename?: 'ShopifyCountryHarmonizedSystemCodes';
-  country_code?: Maybe<Scalars['String']['output']>;
-  harmonized_system_code?: Maybe<Scalars['String']['output']>;
-};
-
-export type ShopifyGetProductsRequestDto = {
-  filter?: InputMaybe<ShopifyProductFilter>;
-};
-
-export type ShopifyGetProductsResponseDto = {
-  __typename?: 'ShopifyGetProductsResponseDto';
-  inventory?: Maybe<Array<Maybe<ShopifyInventoryItem>>>;
-  pagination: ShopifyPagination;
-  products?: Maybe<Array<Maybe<ShopifyProduct>>>;
-};
-
-export type ShopifyInventoryItem = {
-  __typename?: 'ShopifyInventoryItem';
-  cost?: Maybe<Scalars['String']['output']>;
-  country_code_of_origin?: Maybe<Array<Maybe<ShopifyCountryHarmonizedSystemCodes>>>;
-  created_at?: Maybe<Scalars['Date']['output']>;
-  harmonized_system_code?: Maybe<Scalars['Int']['output']>;
-  province_code_of_origin?: Maybe<Scalars['String']['output']>;
-  requires_shipping?: Maybe<Scalars['Boolean']['output']>;
-  sku?: Maybe<Scalars['String']['output']>;
-  tracked?: Maybe<Scalars['Boolean']['output']>;
-  updated_at?: Maybe<Scalars['Date']['output']>;
-};
-
-export type ShopifyPagination = {
-  __typename?: 'ShopifyPagination';
-  limit?: Maybe<Scalars['String']['output']>;
-  /** pass this as page_info to retrive next page of results */
-  next_page_info?: Maybe<Scalars['String']['output']>;
-  /** pass this as page_info to retrive previous page of results */
-  prev_page_info?: Maybe<Scalars['String']['output']>;
-};
-
-export type ShopifyProduct = {
-  __typename?: 'ShopifyProduct';
-  admin_graphql_api_id?: Maybe<Scalars['String']['output']>;
-  /** A description of the product. Supports HTML formatting. */
-  body_html?: Maybe<Scalars['String']['output']>;
-  /** The date and time (ISO 8601 format) when the product was created. */
-  created_at?: Maybe<Scalars['Date']['output']>;
-  /** A unique human-friendly string for the product. Automatically generated from the product's title. Used by the Liquid templating language to refer to objects. */
-  handle?: Maybe<Scalars['String']['output']>;
-  /** An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops. */
-  id?: Maybe<Scalars['ID']['output']>;
-  image?: Maybe<ShopifyProductImage>;
-  /** A list of product image objects, each one representing an image associated with the product. */
-  images?: Maybe<Array<Maybe<ShopifyProductImage>>>;
-  /** The custom product properties. For example, Size, Color, and Material. Each product can have up to 3 options and each option value can be up to 255 characters. Product variants are made of up combinations of option values. Options cannot be created without values. To create new options, a variant with an associated option value also needs to be created. */
-  options?: Maybe<Array<Maybe<ShopifyProductOption>>>;
-  /** A categorization for the product used for filtering and searching products. */
-  product_type?: Maybe<Scalars['String']['output']>;
-  /** The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel. */
-  published_at?: Maybe<Scalars['Date']['output']>;
-  /**
-   * Whether the product is published to the Point of Sale channel. Valid values:
-   * web: The product isn't published to the Point of Sale channel.
-   * global: The product is published to the Point of Sale channel.
-   */
-  published_scope?: Maybe<Scalars['String']['output']>;
-  /**
-   * The status of the product. Valid values:
-   * active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
-   * archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
-   * draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.
-   */
-  status?: Maybe<ShopifyProductStatus>;
-  /** A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters. */
-  tags?: Maybe<Scalars['String']['output']>;
-  /** The suffix of the Liquid template used for the product page. If this property is specified, then the product page uses a template called "product.suffix.liquid", where "suffix" is the value of this property. If this property is "" or null, then the product page uses the default template "product.liquid". (default: null) */
-  template_suffix?: Maybe<Scalars['String']['output']>;
-  /** The name of the product. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** The date and time (ISO 8601 format) when the product was last modified. A product's updated_at value can change for different reasons. For example, if an order is placed for a product that has inventory tracking set up, then the inventory adjustment is counted as an update. */
-  updated_at?: Maybe<Scalars['Date']['output']>;
-  /**
-   * An array of product variants, each representing a different version of the product.
-   * The position property is read-only. The position of variants is indicated by the order in which they are listed.
-   */
-  variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>;
-  /** The name of the product's vendor. */
-  vendor?: Maybe<Scalars['String']['output']>;
-};
-
-export type ShopifyProductFilter = {
-  /** Return products by product collection ID. */
-  collection_id?: InputMaybe<Scalars['ID']['input']>;
-  /** Return products created before a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  created_at_max?: InputMaybe<Scalars['String']['input']>;
-  /** Return products created after a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  created_at_min?: InputMaybe<Scalars['String']['input']>;
-  /** Return only certain fields specified by a comma-separated list of field names. */
-  fields?: InputMaybe<Scalars['String']['input']>;
-  /** Return only products specified by a comma-separated list of product handles. */
-  handle?: InputMaybe<Scalars['String']['input']>;
-  /** Return only products specified by a comma-separated list of product IDs. */
-  ids?: InputMaybe<Scalars['String']['input']>;
-  /** Return up to this many results per page. ≤ 250 default 50 */
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  /** A unique ID used to access a certain page of results. */
-  page_info?: InputMaybe<Scalars['String']['input']>;
-  /** Return presentment prices in only certain currencies, specified by a comma-separated list of ISO 4217 currency codes. */
-  presentment_currencies?: InputMaybe<Scalars['String']['input']>;
-  /** Return products by product type. */
-  product_type?: InputMaybe<Scalars['String']['input']>;
-  /** Return products published before a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  published_at_max?: InputMaybe<Scalars['String']['input']>;
-  /** Return products published after a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  published_at_min?: InputMaybe<Scalars['String']['input']>;
-  /** Return products by their published status. */
-  published_status?: InputMaybe<ShopifyProductPublishStatus>;
-  /** Return only products after the specified ID. */
-  since_id?: InputMaybe<Scalars['ID']['input']>;
-  /** Return only products specified by a comma-separated list of statuses. */
-  status?: InputMaybe<ShopifyProductStatus>;
-  /** Return products by product title. */
-  title?: InputMaybe<Scalars['String']['input']>;
-  /** Return products last updated before a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  updated_at_max?: InputMaybe<Scalars['String']['input']>;
-  /** Return products last updated after a specified date. (format: 2014-04-25T16:15:47-04:00) */
-  updated_at_min?: InputMaybe<Scalars['String']['input']>;
-  /** Return products by product vendor. */
-  vendor?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type ShopifyProductImage = {
-  __typename?: 'ShopifyProductImage';
-  admin_graphql_api_id?: Maybe<Scalars['String']['output']>;
-  alt?: Maybe<Scalars['String']['output']>;
-  /** The date and time when the product image was created. The API returns this value in ISO 8601 format. */
-  created_at?: Maybe<Scalars['Date']['output']>;
-  /** Height dimension of the image which is determined on upload. */
+export type ShopifyImage = {
+  __typename?: 'ShopifyImage';
+  created_at?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Int']['output']>;
-  /** A unique numeric identifier for the product image. */
   id?: Maybe<Scalars['ID']['output']>;
-  /** The order of the product image in the list. The first product image is at position 1 and is the "main" image for the product. */
   position?: Maybe<Scalars['Int']['output']>;
-  /** The id of the product associated with the image. */
   product_id?: Maybe<Scalars['ID']['output']>;
-  /** Specifies the location of the product image. This parameter supports Liquid filters that you can use to retrieve modified copies of the image. */
   src?: Maybe<Scalars['String']['output']>;
-  /** The date and time when the product image was last modified. The API returns this value in ISO 8601 format. */
-  updated_at?: Maybe<Scalars['Date']['output']>;
-  /** An array of variant ids associated with the image. */
+  updated_at?: Maybe<Scalars['String']['output']>;
   variant_ids?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
-  /** Width dimension of the image which is determined on upload. */
   width?: Maybe<Scalars['Int']['output']>;
 };
 
-export type ShopifyProductOption = {
-  __typename?: 'ShopifyProductOption';
+export type ShopifyLoadedProduct = {
+  __typename?: 'ShopifyLoadedProduct';
+  body_html?: Maybe<Scalars['String']['output']>;
+  handle?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  position?: Maybe<Scalars['Int']['output']>;
-  product_id?: Maybe<Scalars['ID']['output']>;
-  values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-export enum ShopifyProductPublishStatus {
-  /** Return all products. */
-  Any = 'any',
-  /** Return only published products. */
-  Published = 'published',
-  /** Return only unpublished products. */
-  Unpublished = 'unpublished'
-}
-
-export enum ShopifyProductStatus {
-  /** The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active. */
-  Active = 'active',
-  /** The product is no longer being sold and isn't available to customers on sales channels and apps. */
-  Archived = 'archived',
-  /** The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft. */
-  Draft = 'draft'
-}
-
-export type ShopifyProductVariant = {
-  __typename?: 'ShopifyProductVariant';
-  admin_graphql_api_id?: Maybe<Scalars['String']['output']>;
-  /** The barcode, UPC, or ISBN number for the product. */
-  barcode?: Maybe<Scalars['String']['output']>;
-  /** The original price of the item before an adjustment or a sale. */
-  compare_at_price?: Maybe<Scalars['String']['output']>;
-  /** The date and time (ISO 8601 format) when the product variant was created. */
-  created_at?: Maybe<Scalars['Date']['output']>;
-  /**
-   *   The handle of a fulfillment service that stocks a product variant.
-   * This is the handle of a third-party fulfillment service if the following conditions are met:
-   *
-   * The product variant is stocked by a single fulfillment service.
-   * The FulfillmentService is a third-party fulfillment service. Third-party fulfillment services don't have a handle with the value manual.
-   * The fulfillment service hasn't opted into SKU sharing.
-   * If the conditions aren't met, then this is manual.
-   * The relationship between a product variant and a fulfillment service was changed in the 2022-07 API version. A ProductVariant can be stocked by multiple fulfillment services. As a result, we recommend that you use the InventoryLevel resource if you need to determine where a product variant is stocked.
-   *
-   * If you previously set this field, then we recommend that you instead connect an inventory item to a location. Each Location is associated with a single FulfillmentService. The value of this field after setting it will be as described above.
-   *
-   * If you need to determine whether a product is a gift card, then you should continue to use this field until an alternative is available.
-   */
-  fulfillment_service?: Maybe<Scalars['String']['output']>;
-  /** The weight of the product variant in grams. */
-  grams?: Maybe<Scalars['Float']['output']>;
-  /** The unique numeric identifier for the product variant. */
-  id?: Maybe<Scalars['ID']['output']>;
-  /** The unique numeric identifier for a product's image. The image must be associated to the same product as the variant. */
-  image_id?: Maybe<Scalars['ID']['output']>;
-  /** The unique identifier for the inventory item, which is used in the Inventory API to query for inventory information. */
-  inventory_item_id?: Maybe<Scalars['ID']['output']>;
-  /**
-   *   The fulfillment service that tracks the number of items in stock for the product variant. Valid values:
-   *   shopify: You are tracking inventory yourself using the admin.
-   * null: You aren't tracking inventory on the variant.
-   * the handle of a fulfillment service that has inventory management enabled: This must be the same fulfillment service referenced by the fulfillment_service property.
-   */
-  inventory_management?: Maybe<Scalars['String']['output']>;
-  /**
-   *   Whether customers are allowed to place an order for the product variant when it's out of stock. Valid values:
-   *   deny: Customers are not allowed to place orders for the product variant if it's out of stock.
-   * continue: Customers are allowed to place orders for the product variant if it's out of stock.
-   * Default value: deny.
-   */
-  inventory_policy?: Maybe<Scalars['String']['output']>;
-  /** An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource. */
-  inventory_quantity?: Maybe<Scalars['Int']['output']>;
-  /** This property is deprecated. Use the InventoryLevel resource instead. */
-  old_inventory_quantity?: Maybe<Scalars['Int']['output']>;
-  /** The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3. Default value: Default Title. The title field is a concatenation of the option1, option2, and option3 fields. Updating the option fields updates the title field. */
-  option1?: Maybe<Scalars['String']['output']>;
-  /** The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3. Default value: Default Title. The title field is a concatenation of the option1, option2, and option3 fields. Updating the option fields updates the title field. */
-  option2?: Maybe<Scalars['String']['output']>;
-  /** The custom properties that a shop owner uses to define product variants. You can define three options for a product variant: option1, option2, option3. Default value: Default Title. The title field is a concatenation of the option1, option2, and option3 fields. Updating the option fields updates the title field. */
-  option3?: Maybe<Scalars['String']['output']>;
-  /** The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed. */
-  position?: Maybe<Scalars['Int']['output']>;
-  /** The price of the product variant. */
-  price?: Maybe<Scalars['String']['output']>;
-  /** The unique numeric identifier for the product. */
-  product_id?: Maybe<Scalars['ID']['output']>;
-  /** This property is deprecated. Use the `requires_shipping` property on the InventoryItem resource instead. */
-  requires_shipping?: Maybe<Scalars['Boolean']['output']>;
-  /** A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService. */
-  sku?: Maybe<Scalars['String']['output']>;
-  /** This parameter applies only to the stores that have the Avalara AvaTax app installed. Specifies the Avalara tax code for the product variant. */
-  tax_code?: Maybe<Scalars['String']['output']>;
-  /** Whether a tax is charged when the product variant is sold. */
-  taxable?: Maybe<Scalars['Boolean']['output']>;
-  /** The title of the product variant. The title field is a concatenation of the option1, option2, and option3 fields. You can only update title indirectly using the option fields. */
+  images?: Maybe<Array<Maybe<ShopifyImage>>>;
+  status?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
-  /** The date and time when the product variant was last modified. Gets returned in ISO 8601 format. */
-  updated_at?: Maybe<Scalars['Date']['output']>;
-  /** The weight of the product variant in the unit system specified with weight_unit. */
-  weight?: Maybe<Scalars['Float']['output']>;
-  /** The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied. Valid values: g, kg, oz, and lb. */
-  weight_unit?: Maybe<Scalars['String']['output']>;
 };
 
 export type ShopifyShop = {
   __typename?: 'ShopifyShop';
-  access_token: Scalars['String']['output'];
-  domain: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  scope: Scalars['String']['output'];
-  state: Scalars['String']['output'];
+  access_token?: Maybe<Scalars['String']['output']>;
+  country_code?: Maybe<Scalars['String']['output']>;
+  country_name?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['Date']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  products?: Maybe<Array<Maybe<SyncShopifyProduct>>>;
+  redirect_url?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
+  shop: Scalars['String']['output'];
+  shop_currency?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  supplier_id?: Maybe<Scalars['ID']['output']>;
+  updated_at?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ShopifyShopFilter = {
-  domain?: InputMaybe<StringOperator>;
   id?: InputMaybe<IdOperator>;
+  shop?: InputMaybe<StringOperator>;
 };
 
 export type SokoWorldDomainExistsRequestDto = {
@@ -7067,6 +7042,7 @@ export enum SubscriptionType {
 export type Supplier = {
   __typename?: 'Supplier';
   agreement_terms?: Maybe<Scalars['String']['output']>;
+  avatar?: Maybe<Scalars['String']['output']>;
   business_details?: Maybe<SupplierBusiness>;
   country?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Date']['output']>;
@@ -7079,6 +7055,7 @@ export type Supplier = {
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   payment_details?: Maybe<SupplierPaymentDetails>;
+  permissions: Array<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   setup_complete: Scalars['Boolean']['output'];
   shop?: Maybe<Shop>;
@@ -7153,6 +7130,11 @@ export type SupplierBusinessInput = {
   registered: Scalars['Boolean']['input'];
   state?: InputMaybe<Scalars['String']['input']>;
   supplier_id: Scalars['ID']['input'];
+};
+
+export type SupplierCheckList = {
+  __typename?: 'SupplierCheckList';
+  supplier_id: Scalars['ID']['output'];
 };
 
 export type SupplierCreationResponse = {
@@ -7243,10 +7225,107 @@ export type SupplierProfileUpdateInput = {
   value: Scalars['String']['input'];
 };
 
+export type SupplierStats = {
+  __typename?: 'SupplierStats';
+  supplier_id: Scalars['ID']['output'];
+  total_active_orders: Scalars['Int']['output'];
+  total_customers: Scalars['Int']['output'];
+  total_finished_orders: Scalars['Int']['output'];
+  total_orders: Scalars['Int']['output'];
+  total_products: Scalars['Int']['output'];
+  total_products_in_stock: Scalars['Int']['output'];
+  total_products_in_transit: Scalars['Int']['output'];
+  total_products_out_of_stock: Scalars['Int']['output'];
+  total_resellers: Scalars['Int']['output'];
+  total_unverified_products: Scalars['Int']['output'];
+  total_verified_products: Scalars['Int']['output'];
+};
+
+export type SupplierWalletSumary = {
+  __typename?: 'SupplierWalletSumary';
+  balance: Scalars['Float']['output'];
+  pendingPayoutRequests: Scalars['Int']['output'];
+  totalRevenueGenerated: Scalars['Float']['output'];
+  totalWithdrawals: Scalars['Float']['output'];
+};
+
+export type SyncShopifyProduct = {
+  __typename?: 'SyncShopifyProduct';
+  body_html?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['Date']['output']>;
+  handle?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  product_id?: Maybe<Scalars['ID']['output']>;
+  shop?: Maybe<Scalars['String']['output']>;
+  shopify_id?: Maybe<Scalars['ID']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['Date']['output']>;
+};
+
+export type SyncShopifyProductInput = {
+  distributionChannel?: InputMaybe<Array<InputMaybe<DistributionChannel>>>;
+  integration_id: Scalars['ID']['input'];
+  product_ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  supplier_country: Scalars['String']['input'];
+};
+
 export type TempCategoryInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   shop_id: Scalars['ID']['input'];
+};
+
+export type TermInput = {
+  ShippingLocations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  cancellationPolicy?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  estimatedDeliveryTime?: InputMaybe<Scalars['Int']['input']>;
+  estimatedDeliveryTimeUnit?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  returnPeriod?: InputMaybe<Scalars['Int']['input']>;
+  returnPolicy?: InputMaybe<Scalars['String']['input']>;
+  settlementCurrency?: InputMaybe<Scalars['String']['input']>;
+  settlementPeriod?: InputMaybe<Scalars['Int']['input']>;
+  settlementType: Settlement;
+  settlementValue: Scalars['Float']['input'];
+  shipTo?: InputMaybe<Scalars['String']['input']>;
+  shippingPolicy?: InputMaybe<Scalars['String']['input']>;
+  supplier_id: Scalars['ID']['input'];
+};
+
+export type Terms = {
+  __typename?: 'Terms';
+  cancellationPolicy?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  estimatedDeliveryTime?: Maybe<Scalars['Int']['output']>;
+  estimatedDeliveryTimeUnit?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  returnPeriod?: Maybe<Scalars['Int']['output']>;
+  returnPolicy?: Maybe<Scalars['String']['output']>;
+  settlementCurrency?: Maybe<Scalars['String']['output']>;
+  settlementPeriod?: Maybe<Scalars['Int']['output']>;
+  settlementType: Settlement;
+  settlementValue: Scalars['Float']['output'];
+  shipTo?: Maybe<Scalars['String']['output']>;
+  shippingLocations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  shippingPolicy?: Maybe<Scalars['String']['output']>;
+};
+
+export type TermsFilter = {
+  description?: InputMaybe<StringOperator>;
+  estimatedDeliveryTime?: InputMaybe<NumberOperator>;
+  id?: InputMaybe<IdOperator>;
+  name?: InputMaybe<StringOperator>;
+  returnPeriod?: InputMaybe<NumberOperator>;
+  settlementCurrency?: InputMaybe<StringOperator>;
+  settlementPeriod?: InputMaybe<NumberOperator>;
+  settlementType?: InputMaybe<Settlement>;
+  shipTo?: InputMaybe<StringOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
 };
 
 export type TinggAcknowledgementRequestDto = {
@@ -7879,29 +7958,18 @@ export type UpdateCampaignInput = {
 
 export type UpdateDiscountData = {
   amount?: InputMaybe<Scalars['Float']['input']>;
-  /**
-   *   The code your customers will enter during checkout. This will appear on your customer’s invoice.
-   * Uppercase letters and numbers only.
-   */
   code?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<UserType>;
   description?: InputMaybe<Scalars['String']['input']>;
-  /** Schedule the discount to deactivate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   expiry_date?: InputMaybe<Scalars['String']['input']>;
-  /** If type is FIXED_AMOUNT, the allocation selected */
   fixed_amount_allocation?: InputMaybe<FixedAmountAllocation>;
-  /** Save as draft */
   is_draft?: InputMaybe<Scalars['Boolean']['input']>;
   locations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   percentage?: InputMaybe<Scalars['Float']['input']>;
-  /** Limit the number of redemptions? */
   redemptions_limit?: InputMaybe<Scalars['Int']['input']>;
-  /** Schedule the discount to activate in the future.  Should be in the format dd/MM/yyyy. e.g 08/02/2023 */
   start_date?: InputMaybe<Scalars['String']['input']>;
-  /** Type of discount */
   type?: InputMaybe<DiscountType>;
   user_id?: InputMaybe<Scalars['ID']['input']>;
-  /** Countries where the discount can be applied */
   valid_country?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -7930,6 +7998,11 @@ export type UpdatePluginRequestDto = {
 
 export type UpdateProductCategoriesInput = {
   categories?: InputMaybe<Array<Scalars['ID']['input']>>;
+  product_id: Scalars['ID']['input'];
+};
+
+export type UpdateProductDistributionInput = {
+  distributionChannels: Array<Scalars['String']['input']>;
   product_id: Scalars['ID']['input'];
 };
 
@@ -7985,6 +8058,16 @@ export type UpdateSupplierBusinessDetailsInputOptions = {
   description?: InputMaybe<Scalars['String']['input']>;
   logo?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateSupplierDetailsData = {
+  avatar?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateSupplierDetailsInput = {
+  data?: InputMaybe<UpdateSupplierDetailsData>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateSupplierPaymentInput = {
@@ -8058,6 +8141,7 @@ export type UserFilter = {
   name?: InputMaybe<StringOperator>;
   phone?: InputMaybe<StringOperator>;
   referred_by?: InputMaybe<StringOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
   user_type?: InputMaybe<StringOperator>;
   username?: InputMaybe<StringOperator>;
   verified?: InputMaybe<BooleanOperator>;
@@ -8101,6 +8185,7 @@ export type UserPlugin = {
   __typename?: 'UserPlugin';
   id: Scalars['ID']['output'];
   plugin_id: Scalars['ID']['output'];
+  plugin_name?: Maybe<Scalars['String']['output']>;
   user_id: Scalars['ID']['output'];
 };
 
@@ -8211,8 +8296,17 @@ export type WalletHistoryFilter = {
   id?: InputMaybe<IdOperator>;
   reference?: InputMaybe<StringOperator>;
   status?: InputMaybe<StringOperator>;
+  supplier_id?: InputMaybe<IdOperator>;
   user_id?: InputMaybe<IdOperator>;
   wallet_id?: InputMaybe<IdOperator>;
+};
+
+export type WalletSumary = {
+  __typename?: 'WalletSumary';
+  balance: Scalars['Float']['output'];
+  pendingPayoutRequests: Scalars['Int']['output'];
+  points: Scalars['Float']['output'];
+  totalRevenueGenerated: Scalars['Float']['output'];
 };
 
 export type WalletTopupFilter = {
@@ -8303,12 +8397,15 @@ export type CreateProductInput = {
   country: CountryCode;
   currency: CurrencyCode;
   description: Scalars['String']['input'];
+  distributionChannels?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   extra_information?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   inhouse?: InputMaybe<Scalars['Boolean']['input']>;
   limited_stock?: InputMaybe<Scalars['Boolean']['input']>;
   media: Array<Scalars['String']['input']>;
+  minimumOrderQuantity?: InputMaybe<Scalars['Int']['input']>;
   price: Scalars['Float']['input'];
+  product_origin?: InputMaybe<ProductOrigin>;
   published: Scalars['Boolean']['input'];
   qty?: InputMaybe<Scalars['Int']['input']>;
   shop_id?: InputMaybe<Scalars['ID']['input']>;
@@ -8322,6 +8419,13 @@ export type CreateProductInput = {
   verified: Scalars['Boolean']['input'];
   weight?: InputMaybe<Scalars['Float']['input']>;
 };
+
+export enum DistributionChannel {
+  MarketPlace = 'MarketPlace',
+  ResellerNetwork = 'ResellerNetwork',
+  SupplierStorefront = 'SupplierStorefront',
+  TendoNetwork = 'TendoNetwork'
+}
 
 export type DocumentInput = {
   file?: InputMaybe<Scalars['String']['input']>;
@@ -8382,7 +8486,6 @@ export type ProductFilter = {
   id?: InputMaybe<IdOperator>;
   inhouse?: InputMaybe<BooleanOperator>;
   main_stock?: InputMaybe<NumberOperator>;
-  owner_id?: InputMaybe<IdOperator>;
   price?: InputMaybe<MoneyOperator>;
   published?: InputMaybe<BooleanOperator>;
   qty?: InputMaybe<NumberOperator>;

@@ -1,5 +1,6 @@
 import { GET_CART } from "../queries/queries";
-import { GetCartQuery,GetCartQueryVariables } from "../graphql/queries/__generated__/queries";
+import { GetCartQuery,GetCartQueryVariables } from "../queries/__generated__/queries";
+
 import { useQuery } from "@apollo/client";
 
 const useOrders=(variables?:GetCartQueryVariables)=>{
